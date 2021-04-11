@@ -14,14 +14,14 @@
  */
 
 module.exports = {
-  code: function () {
-    // 模拟误码，误码1的概率为1/10。
-    return Math.random() < 0.1 ? 1 : 0
-  },
-  'list|5-10': [
-    {
-      title: '@title',
-      link: '@url'
-    }
-  ]
-}
+	code: function () {
+		// 模拟误码，误码1的概率为1/10。
+		return Math.random() < 0.1 ? 1 : 0;
+	},
+	'list|5-10': [
+		{
+			title: '@title',
+			link: '@url'
+		}
+	]
+};
