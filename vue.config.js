@@ -4,6 +4,9 @@ const path = require('path');
 // }
 // mock 数据插件
 const MockjsWebpackPlugin = require('mockplugin');
+// 代码上传插件
+const WebpackScpUploadPlugin = require('webpack-scp-upload-plugin');
+
 const {
 	NODE_ENV, // 环境变量
 	VUE_APP_ENV, // 环境标识
@@ -16,7 +19,7 @@ const {
 	// VUE_APP_STATIC_HOST, // 静态文件域名
 	// VUE_APP_DIR, // 静态文件二级文件夹
 } = process.env;
-
+const SERVER_FILE_PATH = `/usr/local/nginx/html/${VUE_APP_TMGI}`;
 // 是否为生产模式
 const IS_PROD = NODE_ENV === 'production';
 
@@ -55,9 +58,20 @@ function pluginsConfig() {
 			})
 		);
 	}
+	if (IS_PROD) {
+		plugins.push(
+			new WebpackScpUploadPlugin({
+				host: '8.142.29.231',
+				password: 'gleason0.0.',
+				local: 'dist',
+				path: SERVER_FILE_PATH
+			})
+		);
+	}
 	return plugins;
 }
 module.exports = {
+	publicPath: IS_PROD ? './' : '/',
 	// 生产环境是否开启 sourcemap
 	productionSourceMap: false,
 
