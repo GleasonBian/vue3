@@ -3,4 +3,4 @@ import fetch from './fetch';
 /**
  * 登录
  */
-export const login = data => fetch('login', data, 'post');
+export const login = param => fetch('login', param, 'post');

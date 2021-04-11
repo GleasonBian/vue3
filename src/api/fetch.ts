@@ -17,19 +17,29 @@ const baseurl = IS_PROD ? VUE_APP_URL : VUE_APP_ENV;
 console.info('proxy:', baseurl);
 
 axios.defaults.baseURL = baseurl; // 将 baseurl 设置为 axios 的默认 baseURL
-/**
- * 下面 是 axios 封装的 请求
- * 采用 es6 promise 和 async await 方式
- */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default async (url = '', data = {}, type = 'POST') => {
+
+interface Resonse {
+	// `data` 由服务器提供的响应
+  data:any,
+	// `status` 来自服务器响应的 HTTP 状态码
+  status: number,
+	// `statusText` 来自服务器响应的 HTTP 状态信息
+  statusText: string,
+	// `headers` 服务器响应的头
+  headers: any,
+	// `config` 是为请求提供的配置信息
+  config: any,
+  request: any
+}
+
+export default async (url = '', data:any = {}, type = 'POST') => {
 	type = type.toUpperCase();
 
 	if (type === 'GET') {
 		// 请求参数 拼接字符串
 		data.id ? (url = url + '/' + data.id) : url;
 		if (data.param) {
-			let dataStr = [];
+			let dataStr:any = [];
 			Object.keys(data.param).forEach(key => {
 				dataStr.push(key + '=' + data.param[key]);
 			});
@@ -42,10 +52,10 @@ export default async (url = '', data = {}, type = 'POST') => {
 		return new Promise((resolve, reject) => {
 			axios
 				.get(url)
-				.then(res => {
+				.then((res:Resonse) => {
 					resolve(res);
 				})
-				.catch(err => {
+				.catch((err:any) => {
 					reject(err);
 				});
 		});
@@ -57,10 +67,10 @@ export default async (url = '', data = {}, type = 'POST') => {
 			console.log(data);
 			axios
 				.post(url, data)
-				.then(res => {
+				.then((res:Resonse) => {
 					resolve(res);
 				})
-				.catch(err => {
+				.catch((err:any) => {
 					reject(err);
 				});
 		});
@@ -71,10 +81,10 @@ export default async (url = '', data = {}, type = 'POST') => {
 			data = JSON.stringify(data.data || data);
 			axios
 				.put(url, data)
-				.then(res => {
+				.then((res:Resonse) => {
 					resolve(res);
 				})
-				.catch(err => {
+				.catch((err:any) => {
 					reject(err);
 				});
 		});
@@ -85,11 +95,11 @@ export default async (url = '', data = {}, type = 'POST') => {
 			data = JSON.stringify(data.data);
 			axios
 				.delete(url, data)
-				.then(res => {
+				.then((res:Resonse) => {
 					console.log(res);
 					resolve(res);
 				})
-				.catch(err => {
+				.catch((err:any) => {
 					console.log(err);
 					reject(err);
 				});
