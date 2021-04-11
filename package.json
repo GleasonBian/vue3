@@ -3,8 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "mock": "vue-cli-service serve --mode mock",
+    "debug": "vue-cli-service serve --mode debug",
+    "pre": "vue-cli-service serve --mode pretest",
+    "prod": "vue-cli-service serve --mode product",
+    "b:debug": "cross-env NODE_ENV=production vue-cli-service build --mode debug  --upload-id",
+    "b:pre": "cross-env NODE_ENV=production vue-cli-service build --mode pretest --upload-id",
+    "build": "cross-env NODE_ENV=production VUE_APP_OFFICIAL=true vue-cli-service build --mode product",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
