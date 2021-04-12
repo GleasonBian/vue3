@@ -3,7 +3,7 @@ const path = require('path');
 //   return path.join(__dirname, dir)
 // }
 // mock 数据插件
-const MockjsWebpackPlugin = require('mockplugin');
+const MockjsWebpackPlugin = require('../../misc/mockplugin/src/index');
 // 代码上传插件
 const WebpackScpUploadPlugin = require('webpack-scp-upload-plugin');
 
@@ -54,7 +54,7 @@ function pluginsConfig() {
 		plugins.push(
 			new MockjsWebpackPlugin({
 				path: path.join(__dirname, './mock'),
-				port: 9007
+				port: 9090
 			})
 		);
 	}
