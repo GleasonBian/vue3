@@ -3,7 +3,7 @@ const path = require('path');
 //   return path.join(__dirname, dir)
 // }
 // mock 数据插件
-const MockjsWebpackPlugin = require('../../misc/mockplugin/src/index');
+const MockjsWebpackPlugin = require('mockplugin');
 // 代码上传插件
 const WebpackScpUploadPlugin = require('webpack-scp-upload-plugin');
 
