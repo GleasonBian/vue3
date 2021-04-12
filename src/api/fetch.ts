@@ -1,19 +1,4 @@
-import axios from 'axios';
-const {
-	NODE_ENV, // 环境变量
-	VUE_APP_ENV, // 环境标识
-	VUE_APP_URL // 业务标识
-} = process.env;
-// 是否为生产模式
-const IS_PROD = NODE_ENV === 'production';
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-axios.defaults.headers.put['Content-Type'] = 'application/json';
-
-const baseurl = IS_PROD ? VUE_APP_ENV : VUE_APP_URL;
-
-console.info('proxy:', baseurl);
-
-axios.defaults.baseURL = baseurl; // 将 baseurl 设置为 axios 的默认 baseURL
+import Dio from './dio';
 
 interface Resonse {
 	// `data` 由服务器提供的响应
@@ -29,51 +14,50 @@ interface Resonse {
 	request: any
 }
 
-export default async (url = '', data: any = {}, type = 'post', allData = false) => {
+export default (url = '', params: any = {}, method = 'post', allData = false) => {
 
-	type = type.toLocaleLowerCase();
-	const Dio = (_url?: string, _data?: any) => {
-		return new Promise((resolve, reject) => {
-			axios[type](_url, _data)
-				.then((res: Resonse) => {
-					resolve(allData ? res : res.data);
-				})
-				.catch((err: any) => {
-					reject(err);
-				});
-		});
-	};
+	method = method.toLocaleLowerCase();
 
-	if (type === 'get') {
-		let getUrlStr = data.id ? (url + '/' + data.id) : url;
-		if (data.param) {
+	const fetch = (_url?: string, _params?: string) => new Promise((resolve, reject) => {
+		Dio[method](_url, _params)
+			.then((res: Resonse) => {
+				resolve(allData ? res : res.data);
+			})
+			.catch((err: any) => {
+				reject(err);
+			});
+	});
+
+	if (method === 'get') {
+		let getUrlStr = params.id ? (url + '/' + params.id) : url;
+		if (params.param) {
 			let dataStr: any = [];
-			Object.keys(data.param).forEach(key => {
-				dataStr.push(key + '=' + data.param[key]);
+			Object.keys(params.param).forEach(key => {
+				dataStr.push(key + '=' + params.param[key]);
 			});
 			if (dataStr.length) {
 				dataStr = dataStr.join('&');
 				getUrlStr += '?' + dataStr;
 			}
 		}
-		return Dio(getUrlStr);
+		return fetch(getUrlStr);
 	}
 
-	if (type === 'post') {
-		const postParm = JSON.stringify(data);
-		return Dio(url, postParm);
+	if (method === 'post') {
+		const postParm = JSON.stringify(params);
+		return fetch(url, postParm);
 	}
 
-	if (type === 'put') {
-		const putUrl = data.id ? (url + '/' + data.id) : url;
-		const putParams = JSON.stringify(data.data || data);
-		return Dio(putUrl, putParams);
+	if (method === 'put') {
+		const putUrl = params.id ? (url + '/' + params.id) : url;
+		const putParams = JSON.stringify(params.data || params);
+		return fetch(putUrl, putParams);
 	}
 
-	if (type === 'delete') {
-		const deleteUrl = data.id ? (url + '/' + data.id) : url;
-		const deleteParam = JSON.stringify(data.data);
-		return Dio(deleteUrl, deleteParam);
+	if (method === 'delete') {
+		const deleteUrl = params.id ? (url + '/' + params.id) : url;
+		const deleteParam = JSON.stringify(params.data);
+		return fetch(deleteUrl, deleteParam);
 	}
 
 };

@@ -11,15 +11,15 @@ import { Options, Vue } from 'vue-class-component';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
 import { login } from '@/api/index.js';
 @Options({
-	methods: {
-		async sendRequest() {
-			const res = await login();
-			console.log(res);
-		}
-	},
+	methods: {},
 	components: {
 		HelloWorld
 	}
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+	async sendRequest() {
+		const res = await login();
+		console.log(res);
+	}
+}
 </script>
