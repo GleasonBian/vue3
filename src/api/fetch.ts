@@ -32,7 +32,6 @@ interface Resonse {
 export default async (url = '', data: any = {}, type = 'post', allData = false) => {
 
 	type = type.toLocaleLowerCase();
-	console.log();
 	const Dio = (_url?: string, _data?: any) => {
 		return new Promise((resolve, reject) => {
 			axios[type](_url, _data)
