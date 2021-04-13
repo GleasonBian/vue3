@@ -1,20 +1,24 @@
 /**
  * JS function file
  *
- * @url /login
+ * @url /user
  *
  * @describe 你可以在这里写详细的描述信息参数的
  *
  * @method GET
  * @params 参数说明及其他说明
  * uid: user ID
- * name: username
+ * name: user name
  * email: the email
  */
 {
-  "code": 0,
-  "data": {
-    "info": "Gleason",
-    "reault": true
-  }
+  "code|200-400":200,
+  "data|5-10": [
+    {
+      "name": "@cname",
+      "id": "@guid",
+      "email":"@email"
+    }
+  ],
+  "message":"success"
 }

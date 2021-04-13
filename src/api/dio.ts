@@ -39,7 +39,7 @@ class Request {
 			new Promise((resolve, reject) => {
 				Fetch[method](url, param)
 					.then((res: Resonse) => {
-						resolve(allData ? res : res.data);
+						resolve(allData ? res : res.data.data);
 					})
 					.catch((err: any) => {
 						reject(err);
@@ -48,15 +48,19 @@ class Request {
 	}
 	get(url = '', params: any = {}, allData = false) {
 		let getUrlStr = params.id ? url + '/' + params.id : url;
-		if (params.param) {
-			let dataStr: any = [];
-			Object.keys(params.param).forEach(key => {
-				dataStr.push(key + '=' + params.param[key]);
+		let dataStr: any = [];
+		if (params.params) {
+			Object.keys(params.params).forEach(key => {
+				dataStr.push(key + '=' + params.params[key]);
 			});
-			if (dataStr.length) {
-				dataStr = dataStr.join('&');
-				getUrlStr += '?' + dataStr;
-			}
+		} else {
+			Object.keys(params).forEach(key => {
+				dataStr.push(key + '=' + params[key]);
+			});
+		}
+		if (dataStr.length) {
+			dataStr = dataStr.join('&');
+			getUrlStr += '?' + dataStr;
 		}
 		return this.fetch(getUrlStr, null, 'get', allData);
 	}

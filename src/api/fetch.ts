@@ -2,14 +2,14 @@ import axios from 'axios';
 import { ElMessage, ElLoading } from 'element-plus';
 const {
 	NODE_ENV, // 环境变量
-	VUE_APP_ENV, // 环境标识
-	VUE_APP_URL // 业务标识
+	VUE_APP_ENV, // 业务标识
+	VUE_APP_URL // 环境标识
 } = process.env;
 
 // 是否为生产模式
 const IS_PROD = NODE_ENV === 'production';
-const baseurl = IS_PROD ? VUE_APP_ENV : VUE_APP_URL;
-
+const baseurl = IS_PROD ? VUE_APP_URL : VUE_APP_ENV;
+console.log('baseurl', baseurl);
 let loadingInstance: any = null;
 
 // 创建一个独立的axios实例
@@ -37,10 +37,10 @@ fetch.interceptors.request.use((config: any) => {
 fetch.interceptors.response.use(
 	(response: any) => {
 		loadingInstance.close();
-
 		return response;
 	},
 	() => {
+		loadingInstance.close();
 		ElMessage.error('网络请求异常，请稍后重试!');
 	}
 );

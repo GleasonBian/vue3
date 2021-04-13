@@ -1,7 +1,7 @@
 /**
  * JS data file
  *
- * @url /js/js-func-file/user?uid=233
+ * @url /user
  *
  * @describe 你可以在这里写详细的描述信息参数的
  *

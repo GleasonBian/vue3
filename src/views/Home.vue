@@ -9,7 +9,8 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-import { login } from '@/api/index.js';
+import { user } from '@/api/index.js';
+
 @Options({
 	methods: {},
 	components: {
@@ -18,7 +19,7 @@ import { login } from '@/api/index.js';
 })
 export default class Home extends Vue {
 	async sendRequest() {
-		const res = await login({uid:123123123});
+		const res = await user({ uid: 123123123 });
 		console.log(res);
 	}
 }
