@@ -18,7 +18,7 @@ import { login } from '@/api/index.js';
 })
 export default class Home extends Vue {
 	async sendRequest() {
-		const res = await login();
+		const res = await login({uid:123123123});
 		console.log(res);
 	}
 }

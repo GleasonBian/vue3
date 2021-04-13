@@ -1,51 +1,79 @@
-import axios from 'axios';
-import { ElMessage, ElLoading } from 'element-plus';
-const {
-	NODE_ENV, // 环境变量
-	VUE_APP_ENV, // 环境标识
-	VUE_APP_URL // 业务标识
-} = process.env;
+/*
+ * @Description:
+ * @Author: Gleason
+ * @Date: 2021-04-13 16:56:39
+ * @LastEditors: Gleason
+ * @LastEditTime: 2021-04-13 19:13:50
+ */
+import Fetch from './fetch';
 
-// 是否为生产模式
-const IS_PROD = NODE_ENV === 'production';
-const baseurl = IS_PROD ? VUE_APP_ENV : VUE_APP_URL;
-
-let loadingInstance: any = null;
-
-
-// 创建一个独立的axios实例
-const Dio: any = axios.create({
-	// 设置baseUr地址,如果通过proxy跨域可直接填写base地址
-	baseURL: baseurl,
-	// 定义统一的请求头部
-	headers: {
-		"Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-	},
-	// 配置请求超时时间
-	timeout: 10000,
-});
-
-
-// 请求拦截
-Dio.interceptors.request.use((config: any) => {
-	loadingInstance = ElLoading.service({ fullscreen: true, text: '拼命加载中' });
-	// 自定义header，可添加项目token
-	config.headers.token = 'token';
-
-	return config;
-});
-
-
-// 响应拦截
-Dio.interceptors.response.use((response: any) => {
-
-	loadingInstance.close();
-
-	return response;
-}, () => {
-	ElMessage.error('网络请求异常，请稍后重试!');
-});
-
-export default Dio;
-
-
+interface Resonse {
+	// `data` 由服务器提供的响应
+	data: any;
+	// `status` 来自服务器响应的 HTTP 状态码
+	status: number;
+	// `statusText` 来自服务器响应的 HTTP 状态信息
+	statusText: string;
+	// `headers` 服务器响应的头
+	headers: any;
+	// `config` 是为请求提供的配置信息
+	config: any;
+	request: any;
+}
+interface Request {
+	url: string;
+	params: any;
+	method: string;
+	allData: boolean;
+	fetch: (
+		url?: string,
+		param?: any,
+		method?: string,
+		allData?: boolean
+	) => void;
+}
+class Request {
+	constructor() {
+		// 创建axios实例
+		this.fetch = (url, param = {}, method = 'post', allData = true) =>
+			new Promise((resolve, reject) => {
+				Fetch[method](url, param)
+					.then((res: Resonse) => {
+						resolve(allData ? res : res.data);
+					})
+					.catch((err: any) => {
+						reject(err);
+					});
+			});
+	}
+	get(url = '', params: any = {}, allData = false) {
+		let getUrlStr = params.id ? url + '/' + params.id : url;
+		if (params.param) {
+			let dataStr: any = [];
+			Object.keys(params.param).forEach(key => {
+				dataStr.push(key + '=' + params.param[key]);
+			});
+			if (dataStr.length) {
+				dataStr = dataStr.join('&');
+				getUrlStr += '?' + dataStr;
+			}
+		}
+		return this.fetch(getUrlStr, null, 'get', allData);
+	}
+	post(url = '', params: any = {}, allData = false) {
+		const postParm = JSON.stringify(params);
+		this.fetch(url, postParm);
+		return this.fetch(url, postParm, 'post', allData);
+	}
+	put(url = '', params: any = {}, allData = false) {
+		const _url = params.id ? url + '/' + params.id : url;
+		const putParams = JSON.stringify(params.data || params);
+		return this.fetch(_url, putParams, 'put', allData);
+	}
+	delete(url = '', params: any = {}, allData = false) {
+		const _url = params.id ? url + '/' + params.id : url;
+		const deleteParam = JSON.stringify(params.data);
+		return this.fetch(_url, deleteParam, 'delete', allData);
+	}
+}
+export default new Request();
