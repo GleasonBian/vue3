@@ -5,6 +5,4 @@ declare module '*.vue' {
 	export default component
 }
 
-// declare module 'axios'
-// declare module 'element-plus'
 declare module '*.js'
