@@ -1,3 +1,3 @@
-export default (res: any, isNeedAllData: boolean) => {
+export default (res: any) => {
 	const { code, data, msg } = res;
 };

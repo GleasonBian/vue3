@@ -20,7 +20,6 @@ import { user } from '@/api/index.js';
 export default class Home extends Vue {
 	async sendRequest() {
 		const res = await user({ uid: 123123123 });
-		console.log(res);
 	}
 }
 </script>
