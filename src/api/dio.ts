@@ -6,6 +6,7 @@
  * @LastEditTime: 2021-04-13 19:13:50
  */
 import Fetch from './fetch';
+import CodeHandle from './code';
 
 interface Resonse {
 	// `data` 由服务器提供的响应
@@ -39,6 +40,7 @@ class Request {
 			new Promise((resolve, reject) => {
 				Fetch[method](url, param)
 					.then((res: Resonse) => {
+						CodeHandle(res.data);
 						resolve(allData ? res : res.data.data);
 					})
 					.catch((err: any) => {

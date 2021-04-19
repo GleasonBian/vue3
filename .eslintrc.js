@@ -20,7 +20,7 @@ module.exports = {
 		'@typescript-eslint/no-explicit-any': 'off',
 		'@typescript-eslint/camelcase': 'off',
 		'@typescript-eslint/explicit-module-boundary-types': 'off',
-		indent: ['error', 'tab'],
+		// indent: ['error', 'tab'],
 		semi: 2, // 是否需要分号
 		camelcase: 2, // 强制驼峰法命名
 		'prettier/prettier': 0

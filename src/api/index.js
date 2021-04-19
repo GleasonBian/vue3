@@ -11,8 +11,3 @@ import Dio from './dio';
  * 登录
  */
 export const login = param => Dio.post('/login', param);
-
-/**
- * 登录
- */
-export const user = param => Dio.get('/user', param);

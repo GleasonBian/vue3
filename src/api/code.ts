@@ -1,3 +1,17 @@
-export default (res: any) => {
-	const { code, data, msg } = res;
+
+interface Res {
+	code: number,
+	data: any,
+	message: string
+}
+const CodeHandle = (res: Res) => {
+	const { code } = res;
+	switch (code) {
+		case 404: console.log('进入404页面');
+			break;
+		case 500: console.log('服务错误');
+			break;
+	}
 };
+
+export default CodeHandle;
