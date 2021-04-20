@@ -1,3 +1,10 @@
+/*
+ * @Description:
+ * @Author: Gleason
+ * @Date: 2021-04-14 11:52:20
+ * @LastEditors: Gleason
+ * @LastEditTime: 2021-04-14 13:39:58
+ */
 import axios from 'axios';
 import { ElMessage, ElLoading } from 'element-plus';
 const {
@@ -13,7 +20,7 @@ console.log('baseurl', baseurl);
 let loadingInstance: any = null;
 
 // 创建一个独立的axios实例
-const fetch: any = axios.create({
+const Dio: any = axios.create({
 	// 设置baseUr地址,如果通过proxy跨域可直接填写base地址
 	baseURL: baseurl,
 	// 定义统一的请求头部
@@ -25,7 +32,7 @@ const fetch: any = axios.create({
 });
 
 // 请求拦截
-fetch.interceptors.request.use((config: any) => {
+Dio.interceptors.request.use((config: any) => {
 	loadingInstance = ElLoading.service({ fullscreen: true, text: '拼命加载中' });
 	// 自定义header，可添加项目token
 	config.headers.token = 'token';
@@ -34,7 +41,7 @@ fetch.interceptors.request.use((config: any) => {
 });
 
 // 响应拦截
-fetch.interceptors.response.use(
+Dio.interceptors.response.use(
 	(response: any) => {
 		loadingInstance.close();
 		return response;
@@ -45,4 +52,4 @@ fetch.interceptors.response.use(
 	}
 );
 
-export default fetch;
+export default Dio;

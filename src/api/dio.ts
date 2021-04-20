@@ -3,9 +3,9 @@
  * @Author: Gleason
  * @Date: 2021-04-13 16:56:39
  * @LastEditors: Gleason
- * @LastEditTime: 2021-04-13 19:13:50
+ * @LastEditTime: 2021-04-14 15:56:57
  */
-import Fetch from './fetch';
+import Dio from './axios';
 
 interface Resonse {
 	// `data` 由服务器提供的响应
@@ -21,23 +21,33 @@ interface Resonse {
 	request: any;
 }
 interface Request {
-	url: string;
-	params: any;
-	method: string;
-	allData: boolean;
-	fetch: (
+	situation: string[];
+	dio: (
+		method?: string,
 		url?: string,
 		param?: any,
-		method?: string,
-		allData?: boolean
+		allData?: boolean,
+		config?: any
 	) => void;
 }
 class Request {
 	constructor() {
-		// 创建axios实例
-		this.fetch = (url, param = {}, method = 'post', allData = true) =>
-			new Promise((resolve, reject) => {
-				Fetch[method](url, param)
+		this.situation = ['put', 'post', 'patch', 'delete'];
+		this.dio = (
+			method = 'post',
+			url = '',
+			params = {},
+			allData = true,
+			config = {}
+		) => {
+			return new Promise((resolve, reject) => {
+				Dio({
+					method,
+					url,
+					data: this.situation.includes(method) ? params : {},
+					params: method === 'get' ? params : {},
+					...config
+				})
 					.then((res: Resonse) => {
 						resolve(allData ? res : res.data.data);
 					})
@@ -45,39 +55,44 @@ class Request {
 						reject(err);
 					});
 			});
+		};
 	}
-	get(url = '', params: any = {}, allData = false) {
-		let getUrlStr = params.id ? url + '/' + params.id : url;
-		let dataStr: any = [];
-		if (params.params) {
-			Object.keys(params.params).forEach(key => {
-				dataStr.push(key + '=' + params.params[key]);
-			});
-		} else {
-			Object.keys(params).forEach(key => {
-				dataStr.push(key + '=' + params[key]);
-			});
+	// url = '', params: any = {}, allData = false, RESTful = false
+	get = (...args: any) => {
+		return this.dio(...args);
+	};
+
+	post = (url = '', params: any = {}, allData = false, RESTful = false) => {
+		return this.dio('post', url, params, allData);
+	};
+
+	put = (url = '', params: any = {}, allData = false, RESTful = false) =>
+		this.dio('put', url, params, allData);
+
+	delete = (url = '', params: any = {}, allData = false, RESTful = false) =>
+		this.dio('delete', url, params, allData);
+
+	paramsHandle(method: string, url: string, params: any) {
+		const urlE = params.id ? url + '/' + params.id : url;
+		const QsParamsE = JSON.stringify(params.data ?? params);
+		let Url: string = url,
+			QSParams: any = params;
+		if (this.situation.includes(method)) {
+			QSParams = QsParamsE;
+			Url = method === 'post' ? url : urlE;
 		}
-		if (dataStr.length) {
-			dataStr = dataStr.join('&');
-			getUrlStr += '?' + dataStr;
+
+		if (method === 'get') {
+			Url = urlE;
+			QSParams = QSParams.data;
 		}
-		return this.fetch(getUrlStr, null, 'get', allData);
-	}
-	post(url = '', params: any = {}, allData = false) {
-		const postParm = JSON.stringify(params);
-		this.fetch(url, postParm);
-		return this.fetch(url, postParm, 'post', allData);
-	}
-	put(url = '', params: any = {}, allData = false) {
-		const _url = params.id ? url + '/' + params.id : url;
-		const putParams = JSON.stringify(params.data || params);
-		return this.fetch(_url, putParams, 'put', allData);
-	}
-	delete(url = '', params: any = {}, allData = false) {
-		const _url = params.id ? url + '/' + params.id : url;
-		const deleteParam = JSON.stringify(params.data);
-		return this.fetch(_url, deleteParam, 'delete', allData);
+
+		console.log({
+			method,
+			url: Url,
+			data: this.situation.includes(method) ? params : {},
+			params: method === 'get' ? QSParams : {}
+		});
 	}
 }
 export default new Request();

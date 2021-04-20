@@ -34,7 +34,7 @@
     "src/**/*.vue",
     "tests/**/*.ts",
     "tests/**/*.tsx"
-, "src/api/index.js", "src/api/fetch.ts"  ],
+, "src/api/index.js", "src/api/axios.ts"  ],
   "exclude": [
     "node_modules"
   ]

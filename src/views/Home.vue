@@ -1,3 +1,10 @@
+<!--
+ * @Description: 
+ * @Author: Gleason
+ * @Date: 2021-04-14 11:52:20
+ * @LastEditors: Gleason
+ * @LastEditTime: 2021-04-14 15:05:06
+-->
 <template>
 	<div class="home">
 		<img alt="Vue logo" src="../assets/logo.png" />
@@ -9,7 +16,7 @@
 <script lang="ts">
 import { Options, Vue } from 'vue-class-component';
 import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
-import { user } from '@/api/index.js';
+import { login } from '@/api/index.js';
 
 @Options({
 	methods: {},
@@ -19,7 +26,7 @@ import { user } from '@/api/index.js';
 })
 export default class Home extends Vue {
 	async sendRequest() {
-		const res = await user({ uid: 123123123 });
+		const res = await login({ id: '234234234',data:{firstName: '卞',lastName:'刘柱'} });
 		console.log(res);
 	}
 }
