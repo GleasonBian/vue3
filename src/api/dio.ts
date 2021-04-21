@@ -3,7 +3,7 @@
  * @Author: Gleason
  * @Date: 2021-04-13 16:56:39
  * @LastEditors: Gleason
- * @LastEditTime: 2021-04-21 14:32:32
+ * @LastEditTime: 2021-04-21 14:39:31
  */
 import Dio from './axios';
 import CodeHandle from './code';
@@ -58,19 +58,17 @@ class Request {
 			});
 		};
 	}
-	// url = '', params: any = {}, allData = false, RESTful = false
-	get = (...args: any) => {
-		return this.dio(...args);
-	};
 
-	post = (url = '', params: any = {}, allData = false, RESTful = false) => {
-		return this.dio('post', url, params, allData);
-	};
+	get = (url = '', params: any = {}, allData = false) =>
+		this.dio('get', url, params, allData);
 
-	put = (url = '', params: any = {}, allData = false, RESTful = false) =>
+	post = (url = '', params: any = {}, allData = false) =>
+		this.dio('post', url, params, allData);
+
+	put = (url = '', params: any = {}, allData = false) =>
 		this.dio('put', url, params, allData);
 
-	delete = (url = '', params: any = {}, allData = false, RESTful = false) =>
+	delete = (url = '', params: any = {}, allData = false) =>
 		this.dio('delete', url, params, allData);
 
 	paramsHandle(method: string, url: string, params: any) {
