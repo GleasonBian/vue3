@@ -3,7 +3,7 @@
  * @Author: Gleason
  * @Date: 2021-04-14 11:52:20
  * @LastEditors: Gleason
- * @LastEditTime: 2021-04-14 15:05:06
+ * @LastEditTime: 2021-04-21 14:33:43
 -->
 <template>
 	<div class="home">
@@ -26,11 +26,7 @@ import { login } from '@/api/index.js';
 })
 export default class Home extends Vue {
 	async sendRequest() {
-<<<<<<< HEAD
-		const res = await login({ id: '234234234',data:{firstName: '卞',lastName:'刘柱'} });
-=======
 		const res = await login({ uid: 123123123 });
->>>>>>> 82afb158c1ab4a97089cc45728f73c5b30510720
 		console.log(res);
 	}
 }
