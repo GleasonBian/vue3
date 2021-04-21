@@ -3,10 +3,10 @@
  * @Author: Gleason
  * @Date: 2021-04-13 16:56:39
  * @LastEditors: Gleason
- * @LastEditTime: 2021-04-14 15:56:57
+ * @LastEditTime: 2021-04-21 14:32:32
  */
 import Dio from './axios';
-
+import CodeHandle from './code';
 interface Resonse {
 	// `data` 由服务器提供的响应
 	data: any;
@@ -49,6 +49,7 @@ class Request {
 					...config
 				})
 					.then((res: Resonse) => {
+						CodeHandle(res.data);
 						resolve(allData ? res : res.data.data);
 					})
 					.catch((err: any) => {
