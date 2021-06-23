@@ -6,20 +6,20 @@
  * @LastEditTime: 2021-04-21 14:39:31
  */
 import Dio from './axios';
+import QueryString from 'qs';
+import { ElMessage, ElLoading } from 'element-plus';
 import CodeHandle from './code';
+
+// 响应数据结构
 interface Resonse {
-	// `data` 由服务器提供的响应
-	data: any;
-	// `status` 来自服务器响应的 HTTP 状态码
-	status: number;
-	// `statusText` 来自服务器响应的 HTTP 状态信息
-	statusText: string;
-	// `headers` 服务器响应的头
-	headers: any;
-	// `config` 是为请求提供的配置信息
-	config: any;
+	data: any; // `data` 由服务器提供的响应
+	status: number; // `status` 来自服务器响应的 HTTP 状态码
+	statusText: string; // `statusText` 来自服务器响应的 HTTP 状态信息
+	headers: any; // `headers` 服务器响应的头
+	config: any; // `config` 是为请求提供的配置信息
 	request: any;
 }
+// 请求数据结构
 interface Request {
 	situation: string[];
 	dio: (
@@ -30,68 +30,63 @@ interface Request {
 		config?: any
 	) => void;
 }
+
+// loading 开关
+let loadingInstance: any = null;
+
+// 请求方法封装
+// eslint-disable-next-line no-redeclare
 class Request {
 	constructor() {
-		this.situation = ['put', 'post', 'patch', 'delete'];
 		this.dio = (
 			method = 'post',
 			url = '',
 			params = {},
 			allData = true,
+			loading = true,
 			config = {}
 		) => {
+			const situation = ['put', 'post', 'patch', 'delete'];
+			if (loading)
+				loadingInstance = ElLoading.service({
+					fullscreen: true,
+					text: '拼命加载中'
+				});
+
 			return new Promise((resolve, reject) => {
 				Dio({
 					method,
 					url,
-					data: this.situation.includes(method) ? params : {},
-					params: method === 'get' ? params : {},
+					params: method === 'get' ? params : {}, // GET 方法请求带参
+					data: situation.includes(method)
+						? QueryString.stringify(params, { arrayFormat: 'brackets' })
+						: {}, // 其他方法请求带参
 					...config
 				})
 					.then((res: Resonse) => {
 						CodeHandle(res.data);
 						resolve(allData ? res : res.data.data);
+						loadingInstance.close();
 					})
 					.catch((err: any) => {
 						reject(err);
+						ElMessage.info('数据获取失败');
+						loadingInstance.close();
 					});
 			});
 		};
 	}
 
-	get = (url = '', params: any = {}, allData = false) =>
-		this.dio('get', url, params, allData);
+	get = (url = '', params: any = {}, allData = false, loading = true) =>
+		this.dio('get', url, params, allData, loading);
 
-	post = (url = '', params: any = {}, allData = false) =>
-		this.dio('post', url, params, allData);
+	post = (url = '', params: any = {}, allData = false, loading = true) =>
+		this.dio('post', url, params, allData, loading);
 
-	put = (url = '', params: any = {}, allData = false) =>
-		this.dio('put', url, params, allData);
+	put = (url = '', params: any = {}, allData = false, loading = true) =>
+		this.dio('put', url, params, allData, loading);
 
-	delete = (url = '', params: any = {}, allData = false) =>
-		this.dio('delete', url, params, allData);
-
-	paramsHandle(method: string, url: string, params: any) {
-		const urlE = params.id ? url + '/' + params.id : url;
-		const QsParamsE = JSON.stringify(params.data ?? params);
-		let Url: string = url,
-			QSParams: any = params;
-		if (this.situation.includes(method)) {
-			QSParams = QsParamsE;
-			Url = method === 'post' ? url : urlE;
-		}
-
-		if (method === 'get') {
-			Url = urlE;
-			QSParams = QSParams.data;
-		}
-
-		console.log({
-			method,
-			url: Url,
-			data: this.situation.includes(method) ? params : {},
-			params: method === 'get' ? QSParams : {}
-		});
-	}
+	delete = (url = '', params: any = {}, allData = false, loading = true) =>
+		this.dio('delete', url, params, allData, loading);
 }
 export default new Request();

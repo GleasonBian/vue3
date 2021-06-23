@@ -1,11 +1,12 @@
-const path = require('path');
+import { join, resolve as _resolve } from 'path';
+import OS from 'os';
 // function resolve (dir) {
 //   return path.join(__dirname, dir)
 // }
 // mock 数据插件
-const MockjsWebpackPlugin = require('mockplugin');
+import MockjsWebpackPlugin from 'mockplugin';
 // 代码上传插件
-const WebpackScpUploadPlugin = require('webpack-scp-upload-plugin');
+import WebpackScpUploadPlugin from 'webpack-scp-upload-plugin';
 
 const {
 	NODE_ENV, // 环境变量
@@ -53,7 +54,7 @@ function pluginsConfig() {
 	if (IS_MOCK) {
 		plugins.push(
 			new MockjsWebpackPlugin({
-				path: path.join(__dirname, './mock'),
+				path: join(__dirname, './mock'),
 				port: 9090
 			})
 		);
@@ -70,56 +71,44 @@ function pluginsConfig() {
 	}
 	return plugins;
 }
-module.exports = {
-	publicPath: IS_PROD ? './' : '/',
-	// 生产环境是否开启 sourcemap
-	productionSourceMap: false,
+export const publicPath = IS_PROD ? './' : '/';
+export const productionSourceMap = false;
+export const lintOnSave = !IS_PROD;
+export const filenameHashing = true;
+export const outputDir = 'dist';
+export const parallel = OS.cpus().length > 1;
 
-	// 是否自动开启eslint 检查
-	lintOnSave: !IS_PROD,
-
-	// 输出文件是否使用哈希
-	filenameHashing: true,
-
-	// 文件输出目录
-	outputDir: 'dist',
-
-	// 如果机器有超过1个内核，则在默认情况下为生产构建中的 babel 和 ts 使用线程加载器
-	parallel: require('os').cpus().length > 1,
-
-	configureWebpack: {
-		// 覆盖webpack默认配置的都在这里
-		resolve: {
-			// 配置解析别名其中:@代表根目录，@c代表 src/components 文件夹，等
-			alias: {
-				'@': path.resolve(__dirname, './src'),
-				'@a': path.resolve(__dirname, './src/assets'),
-				'@c': path.resolve(__dirname, './src/components')
-			}
-		},
-		plugins: pluginsConfig()
+export const configureWebpack = {
+	// 覆盖webpack默认配置的都在这里
+	resolve: {
+		// 配置解析别名其中:@代表根目录，@c代表 src/components 文件夹，等
+		alias: {
+			'@': _resolve(__dirname, './src'),
+			'@a': _resolve(__dirname, './src/assets'),
+			'@c': _resolve(__dirname, './src/components')
+		}
 	},
-	// 代理服务
-	devServer: {
-		overlay: {
-			warnings: false,
-			errors: true
-		},
-		compress: true,
-		open: true, // 启动时 是否 打开浏览器
-		host: VUE_APP_HOST, // 域名
-		port: VUE_APP_PORT, // 端口号
-		https: false, // local.jd.com 是否使用 https 协议
-		proxy: {
-			// 主域名
-			[VUE_APP_ENV]: {
-				secure: false, // 使用的是 http 协议则设置为false，https 协议则设置为 true
-				ws: false, // 是否启用websockets
-				target: VUE_APP_URL, // 代理目标
-				changeOrigin: true, // 覆盖主机头来源
-				pathRewrite: {
-					['^/' + VUE_APP_ENV]: ''
-				}
+	plugins: pluginsConfig()
+};
+export const devServer = {
+	overlay: {
+		warnings: false,
+		errors: true
+	},
+	compress: true,
+	open: true,
+	host: VUE_APP_HOST,
+	port: VUE_APP_PORT,
+	https: false,
+	proxy: {
+		// 主域名
+		[VUE_APP_ENV]: {
+			secure: false,
+			ws: false,
+			target: VUE_APP_URL,
+			changeOrigin: true,
+			pathRewrite: {
+				[`^/${VUE_APP_ENV}`]: ''
 			}
 		}
 	}
