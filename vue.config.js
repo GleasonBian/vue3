@@ -119,7 +119,7 @@ module.exports = {
 				target: VUE_APP_URL, // 代理目标
 				changeOrigin: true, // 覆盖主机头来源
 				pathRewrite: {
-					['^/' + VUE_APP_ENV]: ''
+					[`^/${VUE_APP_ENV}`]: ''
 				}
 			}
 		}

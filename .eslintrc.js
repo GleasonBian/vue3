@@ -7,6 +7,6 @@ module.exports = {
 	],
 	rules: {
 		'no-console': 'off',
-		'no-require-imports': 'off'
+		'@typescript-eslint/no-require-imports': 'off'
 	}
 };
