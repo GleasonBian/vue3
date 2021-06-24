@@ -6,6 +6,7 @@ module.exports = {
 		'prettier/vue'
 	],
 	rules: {
-		'no-console': 'off'
+		'no-console': 'off',
+		'no-require-imports': 'off'
 	}
 };
