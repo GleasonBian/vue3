@@ -3,9 +3,10 @@
 		<el-container>
 			<el-header height="60px">Header</el-header>
 			<el-container>
-				<el-aside width="200px">
-					<router-link to="/">Home</router-link> <br />
-					<router-link to="/about">About</router-link>
+				<el-aside width="300px">
+					<side-bar></side-bar>
+					<!-- <router-link to="/">Home</router-link> <br />
+					<router-link to="/about">About</router-link> -->
 				</el-aside>
 				<el-main style="padding: 0px">
 					<router-view class="router-view" v-slot="{ Component }">
@@ -19,17 +20,21 @@
 	</div>
 </template>
 
-<script>
+<script lang="ts">
 import { reactive, toRefs } from 'vue';
 import { useRouter } from 'vue-router';
+import SideBar from '@/components/Sidebar.vue';
 
 export default {
+	components: {
+		SideBar
+	},
 	setup() {
 		const router = useRouter();
 		const state = reactive({
 			transitionName: 'slide-left'
 		});
-		router.beforeEach((to, from) => {
+		router.beforeEach((to: any, from: any) => {
 			if (to.meta.index > from.meta.index) {
 				state.transitionName = 'slide-left'; // 向左滑动
 			} else if (to.meta.index < from.meta.index) {
