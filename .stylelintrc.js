@@ -1,3 +1,5 @@
 module.exports = {
-  extends: 'stylelint-config-ali',
+	extends: 'stylelint-config-ali',
+	syntax: 'less',
+	indentation: 'tab'
 };

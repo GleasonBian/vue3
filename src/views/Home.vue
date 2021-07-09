@@ -6,7 +6,7 @@
  * @LastEditTime: 2021-04-21 14:33:43
 -->
 <template>
-	<div class="home">
+	<div>
 		<!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
 		<button @click="sendRequest">发送请求测试</button>
 		<!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" /> -->
