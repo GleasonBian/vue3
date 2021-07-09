@@ -35,10 +35,7 @@
 					</span>
 					<template #dropdown>
 						<el-dropdown-menu>
-							<a
-								href="https://github.com/lin-xin/vue-manage-system"
-								target="_blank"
-							>
+							<a href="https://github.com/bianliuzhu/vue3" target="_blank">
 								<el-dropdown-item>项目仓库</el-dropdown-item>
 							</a>
 							<el-dropdown-item divided command="loginout"
@@ -56,7 +53,7 @@ export default {
 	data() {
 		return {
 			fullscreen: false,
-			name: 'linxin',
+			name: 'Gleason',
 			message: 2
 		};
 	},

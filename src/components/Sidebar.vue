@@ -85,7 +85,7 @@ export default class SideBar extends Vue {
 	items: any = reactive<MainMenu[]>([
 		{
 			icon: 'el-icon-camera-solid',
-			index: '/',
+			index: '/about',
 			title: '系统首页'
 		},
 		{
