@@ -4,10 +4,8 @@
 			<Header />
 		</el-header>
 		<el-container>
-			<el-aside>
+			<el-aside width="250px">
 				<side-bar />
-				<!-- <router-link to="/">Home</router-link> <br />
-					<router-link to="/about">About</router-link> -->
 			</el-aside>
 			<el-main id="vue_app_main">
 				<Tags />

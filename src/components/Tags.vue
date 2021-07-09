@@ -36,6 +36,7 @@
 export default {
 	computed: {
 		tagsList() {
+			console.log('this.$store.state.tagsList', this.$store.state.tagsList);
 			return this.$store.state.tagsList;
 		},
 		showTags() {
@@ -93,6 +94,7 @@ export default {
 	},
 	watch: {
 		$route(newValue) {
+			console.log('newValue', newValue);
 			this.setTags(newValue);
 		}
 	},

@@ -76,9 +76,7 @@ interface SubMenu {
 		collapse() {
 			return this.$store.state.collapse;
 		}
-	},
-	methods: {},
-	components: {}
+	}
 })
 export default class SideBar extends Vue {
 	// 响应式状态

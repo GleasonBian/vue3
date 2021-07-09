@@ -7,9 +7,7 @@
 -->
 <template>
 	<div>
-		<!-- <img alt="Vue logo" src="../assets/logo.png" /> -->
 		<button @click="sendRequest">发送请求测试</button>
-		<!-- <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" /> -->
 	</div>
 </template>
 
