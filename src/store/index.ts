@@ -1,10 +1,20 @@
 /* eslint-disable */
-import { createStore } from 'vuex';
 
-export default createStore({
+import { InjectionKey } from 'vue';
+import { createStore, useStore as baseUseStore, Store } from 'vuex';
+
+export interface State {
+	tagsList: any;
+	collapse: boolean;
+	menuWidth: number;
+}
+export const key: InjectionKey<Store<State>> = Symbol();
+
+export const store = createStore<State>({
 	state: {
 		tagsList: [],
-		collapse: false
+		collapse: false,
+		menuWidth: 250
 	},
 	mutations: {
 		delTagsItem(state: any, data: any) {
@@ -37,9 +47,15 @@ export default createStore({
 		},
 		// 侧边栏折叠
 		hadndleCollapse(state, data) {
+			console.log('折叠:', data ? 64 : 250);
+			state.menuWidth = data ? 64 : 250;
 			state.collapse = data;
 		}
 	},
 	actions: {},
 	modules: {}
 });
+
+export function useStore() {
+	return baseUseStore(key);
+}

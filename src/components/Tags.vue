@@ -111,15 +111,21 @@ export default {
 
 <style>
 .tags {
-	position: relative;
-	height: 30px;
+	height: 35px;
 	overflow: hidden;
 	background: #fff;
-	padding-right: 120px;
 	box-shadow: 0 5px 10px #ddd;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0px 5px;
+	margin-bottom: 10px;
 }
 
 .tags ul {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
 	box-sizing: border-box;
 	width: 100%;
 	height: 100%;
@@ -167,9 +173,6 @@ export default {
 }
 
 .tags-close-box {
-	position: absolute;
-	right: 0;
-	top: 0;
 	box-sizing: border-box;
 	padding-top: 1px;
 	text-align: center;

@@ -3,8 +3,8 @@
 		<el-header height="70px" style="background-color: #242f42">
 			<Header />
 		</el-header>
-		<el-container>
-			<el-aside width="250px">
+		<el-container id="vue_app_container">
+			<el-aside :width="menuWidth">
 				<side-bar />
 			</el-aside>
 			<el-main id="vue_app_main">
@@ -22,6 +22,7 @@
 <script lang="ts">
 // import { reactive, toRefs } from 'vue';
 // import { useRouter } from 'vue-router';
+import { mapState } from 'vuex';
 import SideBar from '@/components/Sidebar.vue';
 import Header from '@/components/Header.vue';
 import Tags from '@/components/Tags.vue';
@@ -31,6 +32,13 @@ export default {
 		SideBar,
 		Header,
 		Tags
+	},
+	computed: {
+		...mapState({
+			menuWidth: (state: any) => {
+				return `${state.menuWidth}px`;
+			}
+		})
 	}
 	// setup() {
 	// 	const router = useRouter();
@@ -64,15 +72,20 @@ body {
 	overflow-x: hidden;
 	// overflow-y: scroll;
 }
+
 #vue-app {
 	height: 100%;
+	width: 100%;
 	font-family: 'Avenir', Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	// text-align: center;
-	color: #2c3e50;
-	#vue_app_main {
-		padding: 0px;
+	#vue_app_container {
+		transition: all 1s;
+		#vue_app_main {
+			padding: 0px;
+			margin: 0px;
+			transition: all 1s;
+		}
 	}
 }
 
