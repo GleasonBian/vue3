@@ -20,6 +20,8 @@
 </template>
 
 <script lang="ts">
+// 覆盖上一次提交
+
 // import { reactive, toRefs } from 'vue';
 // import { useRouter } from 'vue-router';
 import { mapState } from 'vuex';

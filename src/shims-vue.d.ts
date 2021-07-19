@@ -8,6 +8,9 @@ declare module '*.vue' {
 	};
 	export default component;
 }
+
+// 覆盖 上一次提交
+
 declare module 'vue/types/vue' {
 	// 这表示this下有这个东西
 	interface Vue {

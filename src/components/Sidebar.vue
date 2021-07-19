@@ -63,11 +63,12 @@ interface MainMenu {
 	title: string;
 	subs?: SubMenu[];
 }
+
 interface SubMenu {
 	index: string;
 	title: string;
 }
-
+// 覆盖上一次提交
 @Options({
 	computed: {
 		onRoutes() {
