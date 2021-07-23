@@ -33,6 +33,7 @@ export const store = createStore<State>({
 			for (let i = 0, len = state.tagsList.length; i < len; i++) {
 				const item = state.tagsList[i];
 				if (item.path === data.$route.fullPath) {
+					console.log('heigh');
 					if (i < len - 1) {
 						data.$router.push(state.tagsList[i + 1].path);
 					} else if (i > 0) {
