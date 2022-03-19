@@ -1,9 +1,8 @@
 const path = require('path');
-// function resolve (dir) {
-//   return path.join(__dirname, dir)
-// }
+
 // mock 数据插件
-const MockjsWebpackPlugin = require('mockplugin');
+const MockServiceWbepack = require('mock-service-webpack');
+
 // 代码上传插件
 const WebpackScpUploadPlugin = require('webpack-scp-upload-plugin');
 
@@ -15,9 +14,6 @@ const {
 	VUE_APP_HOST, // 项目运行 域名
 	VUE_APP_PORT, // 项目运行 端口
 	VUE_APP_URL // 接口域名
-	// VUE_APP_TITLE, // 网页标题
-	// VUE_APP_STATIC_HOST, // 静态文件域名
-	// VUE_APP_DIR, // 静态文件二级文件夹
 } = process.env;
 const SERVER_FILE_PATH = `/usr/local/nginx/html/${VUE_APP_TMGI}`;
 // 是否为生产模式
@@ -53,8 +49,8 @@ function pluginsConfig() {
 	const plugins = [];
 	if (IS_MOCK) {
 		plugins.push(
-			new MockjsWebpackPlugin({
-				path: path.join(__dirname, './mock'),
+			new MockServiceWbepack({
+				path: path.join(__dirname, './mocks'),
 				port: 9090
 			})
 		);
@@ -102,10 +98,6 @@ module.exports = {
 	},
 	// 代理服务
 	devServer: {
-		overlay: {
-			warnings: false,
-			errors: true
-		},
 		compress: true,
 		open: true, // 启动时 是否 打开浏览器
 		host: VUE_APP_HOST, // 域名
