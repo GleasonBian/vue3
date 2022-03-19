@@ -3,7 +3,7 @@
  * @Author: Gleason
  * @Date: 2021-04-14 11:52:20
  * @LastEditors: Gleason
- * @LastEditTime: 2021-04-21 14:33:43
+ * @LastEditTime: 2022-03-20 01:02:21
 -->
 <template>
 	<div>
@@ -12,17 +12,13 @@
 </template>
 
 <script lang="ts">
-import { Options, Vue } from 'vue-class-component';
-import { login } from '@/api/index.js';
+import { Vue } from 'vue-class-component';
+import { login } from '@/api/index.js'; // 请求封装
 
-@Options({
-	methods: {},
-	components: {}
-})
 export default class Home extends Vue {
 	async sendRequest() {
-		const res = await login({ uid: 123123123 });
-		console.log(res);
+		const res = await login({ uid: 123123123 }); // 调用接口
+		console.log(res); // 输出mock数据
 	}
 }
 </script>

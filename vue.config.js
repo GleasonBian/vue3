@@ -1,7 +1,7 @@
 const path = require('path');
 
 // mock 数据插件
-const MockServiceWbepack = require('mock-service-webpack');
+const MockServicePlugin = require('mock-service-plugin');
 
 // 代码上传插件
 const WebpackScpUploadPlugin = require('webpack-scp-upload-plugin');
@@ -49,7 +49,7 @@ function pluginsConfig() {
 	const plugins = [];
 	if (IS_MOCK) {
 		plugins.push(
-			new MockServiceWbepack({
+			new MockServicePlugin({
 				path: path.join(__dirname, './mocks'),
 				port: 9090
 			})
